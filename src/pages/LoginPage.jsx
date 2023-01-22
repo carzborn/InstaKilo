@@ -2,28 +2,21 @@ import {useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAuthContext} from "../contexts/AuthContext";
 
-import BeatLoader from "react-spinners/BeatLoader";
-
 import {
     TextInput,
-    FileInput,
     Button,
     Group,
-    Box,
-    Paper,
     PasswordInput,
     Container,
-    Center,
     Card,
     Title,
-    ThemeIcon,
     Notification,
     Divider,
     Text,
     Loader,
     CardSection
 } from '@mantine/core';
-import {IconUserCircle, IconX} from '@tabler/icons'
+import {IconX} from '@tabler/icons'
 import {useForm} from '@mantine/form';
 
 const LoginPage = () => {
