@@ -21,20 +21,12 @@
     "@react-query-firebase/firestore": "^1.0.0-dev.7",
     "@tabler/icons": "^1.119.0",
     "bootstrap": "^5.2.3",
-    "date-fns": "^2.29.3",
     "firebase": "^9.15.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
-    "react-firebase-hooks": "^5.1.1",
-    "react-hook-form": "^7.41.0",
-    "react-images-upload": "^1.2.8",
-    "react-notifications": "^1.7.4",
     "react-query": "^3.39.2",
-    "react-redux": "^8.0.5",
-    "react-router-dom": "^6.6.0",
-    "react-spinners": "^0.13.7",
-    "react-toastify": "^9.1.1"
+    "react-router-dom": "^6.6.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
