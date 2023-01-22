@@ -24,7 +24,7 @@ import {
 import {IconUserCircle, IconX} from '@tabler/icons'
 import {useForm} from '@mantine/form';
 
-const Signup = () => {
+const RegisterPage = () => {
     const displayNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -97,7 +97,8 @@ const Signup = () => {
     });
 
     return (
-        <Container>
+        <Container className='flex align-items-center'>
+            
             {
                 loading && (
                     <div className="text-center">
@@ -184,7 +185,7 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default RegisterPage;
 
 {/* <Card>
                 <Card.Body>
