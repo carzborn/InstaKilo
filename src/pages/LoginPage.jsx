@@ -19,12 +19,14 @@ import {
     ThemeIcon,
     Notification,
     Divider,
-    Text
+    Text,
+    Loader,
+    CardSection
 } from '@mantine/core';
 import {IconUserCircle, IconX} from '@tabler/icons'
 import {useForm} from '@mantine/form';
 
-const Login = () => {
+const LoginPage = () => {
     const emailRef = useRef();
     const passwordRef = useRef();
     const [error, setError] = useState(null);
@@ -69,14 +71,7 @@ const Login = () => {
     });
 
     return (
-        <Container>
-            {
-                loading && (
-                    <div className="text-center">
-                        <BeatLoader/>
-                    </div>
-                )
-            }
+        <Container fluid>
 
             <Card
                 sx={{
@@ -89,7 +84,7 @@ const Login = () => {
                     <Title m='md' order={1}>InstaKilo</Title>
                 </Card.Section>
 
-                <form onSubmit={form.onSubmit(handleSubmit)}>
+                <form onSubmit={handleSubmit}>
                     <TextInput
                         withAsterisk="withAsterisk"
                         label="Email"
@@ -114,16 +109,22 @@ const Login = () => {
                             </Notification>
                         )
                     }
-
+                    
+                    <CardSection align='center'>
+                    { loading 
+                    ? 
+                    <Loader variant="bars" size='md' mt='md'/>
+                    :                     
                     <Group position="center" mt="md">
-                        <Button fullWidth={true} type="submit">Login</Button>
-                    </Group>
+                        <Button sx={{width: '50%'}} type="submit">Login</Button>
+                    </Group>}
+                    </CardSection>
+
 
                     <Divider/>
-
                     <Text mt='md' align="center">
                         Don't have an account?
-                        <Text ml={5} span="span" component="a" href="/" underline="underline">
+                        <Text ml={5} span="span" component="a" href="/register" underline="underline">
                             Register here
                         </Text>
                     </Text>
@@ -135,4 +136,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginPage;
