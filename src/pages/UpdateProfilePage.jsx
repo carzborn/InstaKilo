@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
-import { Card, Image, CardSection, Container, FileInput, PasswordInput, TextInput, Button, Loader, Center, } from '@mantine/core';
+import { Card, Image, CardSection, Container, FileInput, PasswordInput, TextInput, Button, Loader, Center, ActionIcon, } from '@mantine/core';
 import {useForm} from '@mantine/form';
 import { useAuthContext } from "../contexts/AuthContext";
 import { Form } from "react-router-dom";
+import { IconArrowBackUp, IconBackspace } from "@tabler/icons";
 
 const UpdateProfile = () => {
 	const displayNameRef = useRef();
@@ -38,7 +39,6 @@ const UpdateProfile = () => {
 			return setError("The passwords does not match");
 		}
 
-
 		//checks for matching password and required length before updating the password
 		if(passwordRef.current.value === passwordConfirmRef.current.value && passwordRef.current.value.length >= 6) {
 			updateUserPassword(passwordConfirmRef.current.value)
@@ -61,47 +61,47 @@ const UpdateProfile = () => {
 	};
 
 	return (
+		<>
+			<Container fluid mt='lg' ml='lg'>
 
-            <Card
-                sx={{
-                    maxWidth: 400
-                }}
-                shadow='md'
-                mx="auto"
-                mt='xl'
-            >
-				
+			<ActionIcon component="a" href="/" variant="outline" size='xl' radius='xl'>
+				<IconArrowBackUp/>
+			</ActionIcon>
+
+			<Card
+				sx={{
+					maxWidth: 400
+				}}
+				shadow='md'
+				mx="auto"
+				mt='xl'
+			>
 					<Image
 						src={currentUser.photoURL}
 						alt="profile-image"
-                        withPlaceholder
-                        height={350}
+						withPlaceholder
+						height={350}
 					/>
-
-
 				<form onSubmit={handleSubmit}>
-                    <TextInput
-                        label='Username'
-                        ref={displayNameRef}
-                        defaultValue={currentUser.displayName}
-                    />
-
-                    <PasswordInput
-                        label='Password'
-                        ref={passwordRef}
-                    />
-
-                    <PasswordInput
-                        label='Confirm Password'
-                        ref={passwordConfirmRef}
-                    />
-
-                    <FileInput
-                        label='Profile Picture'
-                        placeholder="Choose a picture"
-                        accept="image/jpeg, image/png"
-                        onChange={handleFileChange}
-                    />
+					<TextInput
+						label='Username'
+						ref={displayNameRef}
+						defaultValue={currentUser.displayName}
+					/>
+					<PasswordInput
+						label='Password'
+						ref={passwordRef}
+					/>
+					<PasswordInput
+						label='Confirm Password'
+						ref={passwordConfirmRef}
+					/>
+					<FileInput
+						label='Profile Picture'
+						placeholder="Choose a picture"
+						accept="image/jpeg, image/png"
+						onChange={handleFileChange}
+					/>
 
 					{error && (
 						<div>
@@ -109,24 +109,23 @@ const UpdateProfile = () => {
 						</div>
 					)}
 
-				
-
 					{success && (
 						<p>PASSWORD UPDATED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
 					)}
-                    
-                    <Center>
-                    {
-                        loading ? <Loader variant='bars' mt='md'/> : 
-                        <Button type='submit' fullWidth mt='md'>
-                            Update profile
-                        </Button>
-                    }
-                    </Center>
-
+					
+					<Center>
+					{
+						loading ? <Loader variant='bars' mt='md'/> : 
+						<Button type='submit' fullWidth mt='md'>
+							Update profile
+						</Button>
+					}
+					</Center>
 
 				</form>
-		</Card>
+			</Card>
+			</Container>
+		</>
 	);
 };
 
