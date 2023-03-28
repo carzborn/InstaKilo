@@ -3,12 +3,13 @@ import { useState } from "react";
 import { auth, db, storage } from "../firebase/index";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useAuthContext } from "../contexts/AuthContext";
+// import { useAuthContext } from "../contexts/AuthContext";
 
 const UploadImage = () => {
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(false);
+  //   const { currentUser } = useAuthContext();
 
   const handleFileChange = (e) => {
     console.log(e);
@@ -35,6 +36,7 @@ const UploadImage = () => {
         imageUrl: imageUrl,
         username: auth.currentUser.displayName,
         profilePic: auth.currentUser.photoURL,
+        user: auth.currentUser.uid,
       });
       setLoading(false);
     } catch (err) {

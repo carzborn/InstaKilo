@@ -50,6 +50,7 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
       text: comment,
       name: currentUser.displayName,
       timestamp: serverTimestamp(),
+      uid: currentUser.uid,
     });
     setComment("");
   };
