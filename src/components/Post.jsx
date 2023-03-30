@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { IconMessageShare } from "@tabler/icons";
+import { useAuthContext } from "../contexts/AuthContext";
+import { db, storage } from "../firebase";
+import { ref, deleteObject } from "firebase/storage";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  doc,
+  serverTimestamp,
+  query,
+  orderBy,
+  deleteDoc,
+} from "firebase/firestore";
+
 import {
   Card,
   Image,
@@ -11,25 +24,24 @@ import {
   ScrollArea,
   Divider,
   ActionIcon,
+  Button,
 } from "@mantine/core";
-import { useAuthContext } from "../contexts/AuthContext";
-import { db } from "../firebase";
-import {
-  addDoc,
-  collection,
-  onSnapshot,
-  doc,
-  serverTimestamp,
-  query,
-  orderBy,
-} from "firebase/firestore";
+import { IconMessageShare, IconTrash } from "@tabler/icons";
 
-const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
+const Post = ({
+  username,
+  caption,
+  imageUrl,
+  profilePic,
+  postId,
+  user,
+  path,
+}) => {
   const { currentUser } = useAuthContext();
   const [comments, setComments] = useState([]);
   const [comment, setComment] = useState("");
 
-  // Get a update on comments on a specific post everytime its updated
+  // specific post everytime its updated
   useEffect(() => {
     const q = query(
       collection(db, "posts", postId, "comments"),
@@ -55,6 +67,14 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
     setComment("");
   };
 
+  //   Delete post
+  const deletePost = async () => {
+    const storageRef = ref(storage, path);
+    await deleteObject(storageRef);
+    const dbRef = doc(db, "posts", postId);
+    await deleteDoc(dbRef);
+  };
+
   return (
     <Container fluid="fluid" align="center" mt="xl" mb="xl">
       <Card
@@ -65,12 +85,22 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
         }}
       >
         <Card.Section p={10} align="start">
-          <Group position="left">
-            <Avatar radius="xl" src={profilePic} color="blue" />
-            <Text weight={500} size="sm">
+          <Group position="apart">
+            <Text
+              weight={500}
+              size="sm"
+              sx={{ display: "flex", alignItems: "center" }}
+            >
+              <Avatar radius="xl" src={profilePic} color="blue" mr="md" />
               <strong>{username}</strong>
             </Text>
+            {currentUser && user === currentUser.uid && (
+              <ActionIcon onClick={() => deletePost()}>
+                <IconTrash />
+              </ActionIcon>
+            )}
           </Group>
+          <Group></Group>
         </Card.Section>
 
         <Card.Section>
@@ -85,7 +115,7 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
 
         <Card.Section mt="md" align="start">
           <Text align="left" ml="md" mb="xs">
-            <strong>{username}</strong>
+            <strong>{username} </strong>
             {caption}
           </Text>
 
@@ -100,7 +130,7 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
             >
               {comments?.map((comment) => (
                 <Text size="sm">
-                  <strong>{comment?.name} </strong>
+                  <strong>{comment?.name}</strong>
                   {comment?.text}
                 </Text>
               ))}
@@ -125,6 +155,7 @@ const Post = ({ username, caption, imageUrl, profilePic, postId }) => {
                   variant="filled"
                   color="blue"
                 >
+                  {" "}
                   <IconMessageShare />
                 </ActionIcon>
               }
