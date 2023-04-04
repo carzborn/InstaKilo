@@ -48,7 +48,12 @@ const Post = ({
       orderBy("timestamp", "desc")
     );
     onSnapshot(q, (snapshot) => {
-      setComments(snapshot.docs.map((doc) => doc.data()));
+      setComments(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          comment: doc.data(),
+        }))
+      );
     });
   }, [postId]);
 
@@ -75,6 +80,12 @@ const Post = ({
     await deleteDoc(dbRef);
   };
 
+  const deleteComment = async () => {
+    const docRef = doc(db, "posts", postId, "comments", comments[0].id);
+    console.log(docRef);
+    await deleteDoc(docRef);
+  };
+
   return (
     <Container fluid="fluid" align="center" mt="xl" mb="xl">
       <Card
@@ -94,13 +105,12 @@ const Post = ({
               <Avatar radius="xl" src={profilePic} color="blue" mr="md" />
               <strong>{username}</strong>
             </Text>
-            {currentUser && user === currentUser.uid && (
+            {user === currentUser.uid && (
               <ActionIcon onClick={() => deletePost()}>
                 <IconTrash />
               </ActionIcon>
             )}
           </Group>
-          <Group></Group>
         </Card.Section>
 
         <Card.Section>
@@ -125,14 +135,33 @@ const Post = ({
             <ScrollArea.Autosize
               maxHeight={100}
               offsetScrollbars="offsetScrollbars"
-              scrollHideDelay={500}
+              type="never"
               mt="xs"
+              sx={{ width: "100%" }}
             >
-              {comments?.map((comment) => (
-                <Text size="sm">
-                  <strong>{comment?.name}</strong>
-                  {comment?.text}
-                </Text>
+              {comments.map(({ id, comment }) => (
+                <Group key={id} position="apart">
+                  <Text size="sm" mb="xs">
+                    <strong> {comment?.name} </strong>
+                    {comment?.text}
+                  </Text>
+
+                  {currentUser && comment.uid === currentUser.uid ? (
+                    <ActionIcon
+                      size="xs"
+                      onClick={() => deleteComment(comment.uid)}
+                    >
+                      <IconTrash />
+                    </ActionIcon>
+                  ) : currentUser && user === currentUser.uid ? (
+                    <ActionIcon
+                      size="xs"
+                      onClick={() => deleteComment(comment.uid)}
+                    >
+                      <IconTrash />
+                    </ActionIcon>
+                  ) : null}
+                </Group>
               ))}
             </ScrollArea.Autosize>
           </Group>
