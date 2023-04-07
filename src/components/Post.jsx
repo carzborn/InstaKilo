@@ -27,6 +27,7 @@ import {
   Button,
 } from "@mantine/core";
 import { IconMessageShare, IconTrash } from "@tabler/icons";
+import ModalImage from "react-modal-image";
 
 const Post = ({
   username,
@@ -114,12 +115,12 @@ const Post = ({
         </Card.Section>
 
         <Card.Section>
-          <Image
-            src={imageUrl}
-            alt="An InstaKilo post!"
-            fit="contain"
-            width="100%"
-            withPlaceholder="withPlaceholder"
+          <ModalImage
+            small={imageUrl}
+            large={imageUrl}
+            imageBackgroundColor="white"
+            hideDownload
+            className="image-style"
           />
         </Card.Section>
 
