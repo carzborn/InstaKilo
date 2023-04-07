@@ -9,10 +9,11 @@ import {
   Tooltip,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { IconUpload, IconLogout } from "@tabler/icons";
+import { IconUpload, IconLogout, IconLogin } from "@tabler/icons";
 import { useAuthContext } from "../contexts/AuthContext";
 import { useState } from "react";
 import UploadImage from "./UploadImage";
+import Search from "./Search";
 
 const useStyles = createStyles((theme) => ({
   header: {
@@ -60,7 +61,7 @@ export default function HeaderSearch() {
         <UploadImage />
       </Modal>
 
-      <Header height={60} className={classes.header} mb={25}>
+      <Header height={60} className={classes.header} mb={35}>
         <div className={classes.inner}>
           <Group>
             <Title component="a" href="/" order={1}>
@@ -68,53 +69,63 @@ export default function HeaderSearch() {
             </Title>
           </Group>
 
-          <Group>
-            <Group ml="md" className={classes.links}>
-              <Tooltip label="Post a picture" mt="xs">
-                <ActionIcon>
-                  <IconUpload onClick={() => setOpened(true)} size="md" />
-                </ActionIcon>
-              </Tooltip>
+          {currentUser ? (
+            <Group>
+              <Search />
 
-              <>
-                {currentUser?.photoURL ? (
-                  <Tooltip label="View your profile" mt="xs">
-                    <Avatar
-                      size="md"
-                      component="a"
-                      href="update-profile"
-                      ml="xs"
-                      radius="xl"
-                      src={currentUser?.photoURL}
-                    />
-                  </Tooltip>
-                ) : (
-                  <Tooltip label="View your profile" mt="xs">
-                    <Avatar
-                      size="md"
-                      component="a"
-                      href="/update-profile"
-                      ml="xs"
-                      radius="xl"
-                      color="blue"
-                    ></Avatar>
-                  </Tooltip>
-                )}
-              </>
+              <Group ml="md">
+                <Tooltip label="Post a picture" mt="xs">
+                  <ActionIcon>
+                    <IconUpload onClick={() => setOpened(true)} size="md" />
+                  </ActionIcon>
+                </Tooltip>
 
-              <Tooltip label="Logout" mt="xs">
-                <ActionIcon
-                  onClick={() => {
-                    logout();
-                    navigate("/login");
-                  }}
-                  ml="xs"
-                >
-                  <IconLogout size="md" />
-                </ActionIcon>
-              </Tooltip>
+                <>
+                  {currentUser?.photoURL ? (
+                    <Tooltip label="View your profile" mt="xs">
+                      <Avatar
+                        size="md"
+                        component="a"
+                        href="update-profile"
+                        ml="xs"
+                        radius="xl"
+                        src={currentUser?.photoURL}
+                      />
+                    </Tooltip>
+                  ) : (
+                    <Tooltip label="View your profile" mt="xs">
+                      <Avatar
+                        size="md"
+                        component="a"
+                        href="/update-profile"
+                        ml="xs"
+                        radius="xl"
+                        color="blue"
+                      ></Avatar>
+                    </Tooltip>
+                  )}
+                </>
+
+                <Tooltip label="Logout" mt="xs">
+                  <ActionIcon
+                    onClick={() => {
+                      logout();
+                      navigate("/");
+                    }}
+                    ml="xs"
+                  >
+                    <IconLogout size="md" />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
             </Group>
-          </Group>
+          ) : (
+            <Tooltip label="Login" mt="xs">
+              <ActionIcon onClick={() => navigate("/login")}>
+                <IconLogin size="xl" />
+              </ActionIcon>
+            </Tooltip>
+          )}
         </div>
       </Header>
     </>
