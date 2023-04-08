@@ -1,15 +1,19 @@
-import { FileInput, TextInput, Button, Group, Loader } from "@mantine/core";
 import { useState } from "react";
-import { auth, db, storage } from "../firebase/index";
+
+import { db, storage } from "../firebase/index";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-// import { useAuthContext } from "../contexts/AuthContext";
+
+import { FileInput, TextInput, Button, Group, Loader } from "@mantine/core";
+import { v4 as uuidv4 } from "uuid";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const UploadImage = () => {
   const [caption, setCaption] = useState("");
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState(false);
-  //   const { currentUser } = useAuthContext();
+
+  const { currentUser } = useAuthContext();
 
   const handleFileChange = (e) => {
     console.log(e);
@@ -24,19 +28,24 @@ const UploadImage = () => {
   };
 
   // Upload a post to the posts collection
-  const handleUpload = async () => {
+  const handleUpload = async (data) => {
     setLoading(true);
-    const fileRef = ref(storage, `posts/${image.name}`);
-    const uploadResult = await uploadBytes(fileRef, image);
-    const imageUrl = await getDownloadURL(uploadResult.ref);
+
     try {
+      const uuid = uuidv4();
+      const filename = `${uuid},jpg`;
+      const fileRef = ref(storage, `posts/${filename}`);
+      const uploadResult = await uploadBytes(fileRef, image);
+      const imageUrl = await getDownloadURL(uploadResult.ref);
+
       await addDoc(collection(db, "posts"), {
         timestamp: serverTimestamp(),
         caption: caption,
         imageUrl: imageUrl,
-        username: auth.currentUser.displayName,
-        profilePic: auth.currentUser.photoURL,
-        user: auth.currentUser.uid,
+        path: fileRef.fullPath,
+        username: currentUser.displayName,
+        profilePic: currentUser.photoURL,
+        user: currentUser.uid,
       });
       setLoading(false);
     } catch (err) {
@@ -69,6 +78,7 @@ const UploadImage = () => {
           <Loader variant="bars" size="md" mt="md" />
         ) : (
           <Button
+            type="submit"
             onClick={handleUpload}
             mt="md"
             sx={{
