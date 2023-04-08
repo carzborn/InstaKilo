@@ -1,13 +1,12 @@
-import Post from "../components/Post";
 import { useState, useEffect } from "react";
 
 import { db } from "../firebase/index";
 import { query, onSnapshot, orderBy, collection } from "firebase/firestore";
 
-import HeaderSearch from "../components/Navigation";
 import { useAuthContext } from "../contexts/AuthContext";
 import Grid from "../components/ImageGrid";
-import { SimpleGrid } from "@mantine/core";
+import Post from "../components/Post";
+import { Container, SimpleGrid, Title } from "@mantine/core";
 
 const HomePage = () => {
   const [posts, setPosts] = useState([]);
@@ -28,8 +27,6 @@ const HomePage = () => {
 
   return (
     <>
-      <HeaderSearch />
-
       {currentUser ? (
         <>
           {
@@ -49,17 +46,26 @@ const HomePage = () => {
           }
         </>
       ) : (
-        <SimpleGrid cols={3}>
-          {posts.map(({ id, post }) => (
-            <Grid
-              key={id}
-              username={post.username}
-              imageUrl={post.imageUrl}
-              profilePic={post.profilePic}
-              postId={id}
-            />
-          ))}
-        </SimpleGrid>
+        <>
+          <Container fluid m="lg">
+            <Title align="center" mb="xl">
+              Latest Posts
+            </Title>
+            <SimpleGrid
+              cols={5}
+              spacing="xs"
+              breakpoints={[
+                { maxWidth: "md", cols: 3, spacing: "md" },
+                { maxWidth: "sm", cols: 2, spacing: "sm" },
+                { maxWidth: "xs", cols: 1, spacing: "sm" },
+              ]}
+            >
+              {posts.map(({ id, post }) => (
+                <Grid key={id} imageUrl={post.imageUrl} />
+              ))}
+            </SimpleGrid>
+          </Container>
+        </>
       )}
     </>
   );
