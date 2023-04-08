@@ -120,7 +120,6 @@ const Post = ({
             large={imageUrl}
             imageBackgroundColor="white"
             hideDownload
-            className="image-style"
           />
         </Card.Section>
 
