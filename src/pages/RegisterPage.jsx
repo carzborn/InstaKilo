@@ -1,5 +1,4 @@
 import { useRef, useState } from "react";
-import { useAuthContext } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -17,6 +16,7 @@ import {
   Loader,
 } from "@mantine/core";
 import { IconX } from "@tabler/icons";
+import { useAuthContext } from "../contexts/AuthContext";
 import { useForm } from "@mantine/form";
 
 const RegisterPage = () => {

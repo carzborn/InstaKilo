@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useAuthContext } from "../contexts/AuthContext";
+
 import { db, storage } from "../firebase";
 import { ref, deleteObject } from "firebase/storage";
 import {
@@ -24,10 +24,10 @@ import {
   ScrollArea,
   Divider,
   ActionIcon,
-  Button,
 } from "@mantine/core";
 import { IconMessageShare, IconTrash } from "@tabler/icons";
 import ModalImage from "react-modal-image";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Post = ({
   username,

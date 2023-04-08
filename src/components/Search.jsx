@@ -29,7 +29,6 @@ const Search = () => {
   const openProfile = () => {
     navigate(`/user/${value}`);
   };
-  console.log(value);
 
   return (
     <>

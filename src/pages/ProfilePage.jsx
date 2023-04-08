@@ -59,7 +59,7 @@ const ProfilePage = () => {
       <>
         {user.map(({ id, user }) => (
           <>
-            <Group key={id} position="start">
+            <Group key={id} position="center">
               <Avatar src={user.photoURL} radius={100} size={150} mr="xl" />
               <Title align="center">{user.displayName}</Title>
             </Group>
