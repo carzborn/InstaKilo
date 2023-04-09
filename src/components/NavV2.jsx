@@ -24,17 +24,17 @@ import Search from "./Search";
 
 const useStyles = createStyles((theme) => ({
   root: {
-    paddingLeft: theme.spacing.md,
-    paddingRight: theme.spacing.md,
+    // paddingLeft: theme.spacing.md,
+    // paddingRight: theme.spacing.md,
     position: "sticky",
   },
 
   dropdown: {
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "rowl",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    height: 50,
+    justifyContent: "center",
+    height: 100,
     position: "absolute",
     width: "100%",
     top: 70,
@@ -44,7 +44,7 @@ const useStyles = createStyles((theme) => ({
     borderTopRightRadius: 0,
     borderTopLeftRadius: 0,
     borderTopWidth: 0,
-    overflow: "hidden",
+    overflow: "visable",
 
     [theme.fn.largerThan("sm")]: {
       display: "none",
@@ -172,38 +172,36 @@ const NavV2 = () => {
                     <Search />
 
                     <Tooltip label="Post a picture" mt="xs">
-                      <ActionIcon>
-                        <IconUpload onClick={() => setOpen(true)} size="md" />
+                      <ActionIcon size="sm">
+                        <IconUpload onClick={() => setOpen(true)} />
                       </ActionIcon>
                     </Tooltip>
 
-                    <>
-                      {currentUser?.photoURL ? (
-                        <Tooltip label="View your profile" mt="xs">
-                          <Avatar
-                            size="md"
-                            component="a"
-                            href="update-profile"
-                            ml="xs"
-                            radius="xl"
-                            src={currentUser?.photoURL}
-                          />
-                        </Tooltip>
-                      ) : (
-                        <Tooltip label="View your profile" mt="xs">
-                          <Avatar
-                            size="md"
-                            component="a"
-                            href="/update-profile"
-                            ml="xs"
-                            radius="xl"
-                            color="blue"
-                          ></Avatar>
-                        </Tooltip>
-                      )}
-                    </>
+                    {currentUser?.photoURL ? (
+                      <Tooltip label="View your profile" mt="xs">
+                        <Avatar
+                          size="sm"
+                          component="a"
+                          href="update-profile"
+                          ml="xs"
+                          radius="xl"
+                          src={currentUser?.photoURL}
+                        />
+                      </Tooltip>
+                    ) : (
+                      <Tooltip label="View your profile" mt="xs">
+                        <Avatar
+                          size="sm"
+                          component="a"
+                          href="/update-profile"
+                          ml="xs"
+                          radius="xl"
+                          color="blue"
+                        ></Avatar>
+                      </Tooltip>
+                    )}
 
-                    <Tooltip label="Logout" mt="xs">
+                    <Tooltip label="Logout" mt="xs" size="sm">
                       <ActionIcon
                         onClick={() => {
                           logout();
@@ -211,14 +209,19 @@ const NavV2 = () => {
                         }}
                         ml="xs"
                       >
-                        <IconLogout size="md" />
+                        <IconLogout />
                       </ActionIcon>
                     </Tooltip>
                   </>
                 ) : (
                   <Tooltip label="Login" mt="xs">
-                    <ActionIcon onClick={() => navigate("/login")}>
-                      <IconLogin size="xl" />
+                    <ActionIcon
+                      onClick={() => {
+                        navigate("/login");
+                      }}
+                      size="md"
+                    >
+                      <IconLogin />
                     </ActionIcon>
                   </Tooltip>
                 )}
