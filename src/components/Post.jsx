@@ -61,16 +61,19 @@ const Post = ({
   // Add a comment to a post
   const postComment = (e) => {
     e.preventDefault();
-
-    const docRef = doc(db, "posts", postId);
-    const colRef = collection(docRef, "comments");
-    addDoc(colRef, {
-      text: comment,
-      name: currentUser.displayName,
-      timestamp: serverTimestamp(),
-      uid: currentUser.uid,
-    });
-    setComment("");
+    try {
+      const docRef = doc(db, "posts", postId);
+      const colRef = collection(docRef, "comments");
+      addDoc(colRef, {
+        text: comment,
+        name: currentUser.displayName,
+        timestamp: serverTimestamp(),
+        uid: currentUser.uid,
+      });
+      setComment("");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   //   Delete post
