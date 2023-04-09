@@ -38,12 +38,11 @@ const Search = () => {
         radius="sm"
         value={value}
         onChange={setValue}
-        disabled={!value}
         data={users}
         onSubmit={openProfile}
         initiallyOpened={false}
         rightSection={
-          <ActionIcon size="sm" onClick={openProfile}>
+          <ActionIcon size="sm" onClick={openProfile} disabled={!value}>
             <IconSearch size="md" />
           </ActionIcon>
         }
