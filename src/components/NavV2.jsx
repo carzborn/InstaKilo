@@ -112,7 +112,7 @@ const NavV2 = () => {
                       <Avatar
                         size="md"
                         component="a"
-                        href="update-profile"
+                        href="/update-profile"
                         ml="xs"
                         radius="xl"
                         src={currentUser?.photoURL}
